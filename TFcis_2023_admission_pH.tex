@@ -199,16 +199,67 @@ vert}}
 %   \end{itemize}
 % \end{frame}
 
-\begin{frame}{\LARGE pH}
+\begin{frame}[fragile]{\LARGE Problem Statement}
+  \begin{block}{pH. different prefix sum}
+    判斷能否構造並構造一個長度為 $n$ 的排列 $(1, 2, 3, ... , n)$，滿足其 $n$ 個前綴和在模 $n$ 的意義下互不相同
+  \end{block} \pause
   \begin{itemize}
-    \item 
+    \item <2-> 我們先設 $pre_i$ 為前 $i$ 個數的和
+    \vspace{0.3cm}
+    \item <3-> 試著觀察一下可以發現以下性質
+    \vspace{0.3cm}
+    \begin{itemize}
+      \item 當 $a_i = n$ 時, 必 $i = 1$ \\
+      (若 $i \neq 1$ 則必有 $i$ 會 $pre_i \equiv pre_{i - 1} \pmod n$, 不符合題目)
+      \vspace{0.3cm}
+      \item 當 $n \neq 1 \land n$為奇數時，無解 \\
+      (否則 $pre_1 \equiv pre_n \equiv \frac{n \times (n + 1)}{2} \equiv 0 \pmod n$, 不符合題目)
+    \end{itemize}
+    
   \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\LARGE Problem Statement}
+  \begin{block}{pH. different prefix sum}
+    判斷能否構造並構造一個長度為 $n$ 的排列 $(1, 2, 3, ... , n)$，滿足其 $n$ 個前綴和在模 $n$ 的意義下互不相同
+  \end{block} 
+  \begin{itemize}
+    \item <1-> 我們可以嘗試構造出這樣一個序列，在對n取模後 \\
+    $0, 1, -1, 2, -2, 3, ... , n - 1$
+    \vspace{0.3cm}
+    \item <2-> 接著我們可以很容易得出
+    $a_1, a_2, a_3, ... ,a_n = n, 1, n-2, 3, n-4, 5, ... , n-1$
+    \vspace{0.3cm}
+    \item <3->
+    因此可以構造出$a_i$ \\
+    為偶數時, $a_i = n - i + 1$ \\
+    為奇數時, $a_i = i - 1$ 
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{參考實作}
+  \begin{minted}[breaklines]{cpp}
+    #include <iostream>
+
+    int main(){
+        int n;
+        std::cin >> n;
+        if (n & 1 && n ^ 1) {
+            std::cout << "-1\n";
+        } else {
+            for (int i = 0; i < n; i++) {
+                std::cout << (i & 1 ? i : n - i) << " \n"[i == n - 1];
+            }
+        }
+    }
+  \end{minted}
 \end{frame}
 
 %\input{}
 
 % \begin{frame}{\LARGE 感謝大家}
-%   \LARGE
+  %   \LARGE
 %   \begin{center}
 %     謝謝大家的聆聽 $\sim$ 
 %   \end{center}
